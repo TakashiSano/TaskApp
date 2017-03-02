@@ -16,22 +16,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="タスクを検索"
-        />
-
-    <Button
-        android:id="@+id/button1"
+    <SearchView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="絞り込み"/>
-
-    <SearchView android:layout_width="match_parent"
         android:id="@+id/searchView1"
-        android:layout_height="wrap_content"></SearchView>
+        android:layout_height="wrap_content"
+        >
+        </SearchView>
 
     <ListView
         android:id="@+id/listView1"

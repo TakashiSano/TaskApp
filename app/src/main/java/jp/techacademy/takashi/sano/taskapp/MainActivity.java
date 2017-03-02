@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 
@@ -21,7 +23,9 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+
     public final static String EXTRA_TASK = "jp.techacademy.taro.kirameki.taskapp.task";
 
     private Realm mRealm;
@@ -32,10 +36,44 @@ public class MainActivity extends AppCompatActivity {
             reloadListView();
         }
     };
+
     private ListView mListView;
     private TaskAdapter mTaskAdapter;
 
+    //検索窓
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        // SearchViewを取得する
+        MenuItem searchItem = menu.findItem(R.id.searchView1);
+        final SearchView searchView = (SearchView) findViewById(R.id.searchView1);
+        searchView.setOnQueryTextListener(this);
+        searchView.setQueryHint("検索文字を入力して下さい。");
+
+        return true;
+    }
+
+    @Override   //入力文字列が変化する度に呼ばれる
+    public boolean onQueryTextChange(String newText) {
+
+        mTaskRealmResults = mRealm.where(Task.class).contains("category",newText).findAll();
+        mTaskRealmResults.sort("date", Sort.DESCENDING);
+        mRealm.addChangeListener(mRealmListener);
+        reloadListView();
+        return true;
+    }
+    @Override   //入力文字列が確定した時に呼ばれる
+    public boolean onQueryTextSubmit(String query) {
+
+        mTaskRealmResults = mRealm.where(Task.class).equalTo("category",query).findAll();
+        mTaskRealmResults.sort("date", Sort.DESCENDING);
+        mRealm.addChangeListener(mRealmListener);
+        reloadListView();
+        return true;
+    }
+
+      @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -155,3 +193,4 @@ public class MainActivity extends AppCompatActivity {
         mRealm.close();
     }
 }
+

@@ -30,6 +30,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="jp.techacademy.takashi.sano.taskapp.MainActivity"/>
         </activity>
+        <activity android:name=".MainActivity$MainActivity" />
 
         <receiver android:name=".TaskAlarmReceiver"/>
 

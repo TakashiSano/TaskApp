@@ -115,7 +115,7 @@ public class InputActivity extends AppCompatActivity {
             // 更新の場合
             mTitleEdit.setText(mTask.getTitle());
             // 佐野が変更したところ始まり
-            mCategoryEdit.setText(mTask.getTitle());
+            mCategoryEdit.setText(mTask.getCategory());
             // 佐野が変更したところ終わり
             mContentEdit.setText(mTask.getContents());
 

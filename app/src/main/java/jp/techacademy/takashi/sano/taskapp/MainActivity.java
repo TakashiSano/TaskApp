@@ -146,7 +146,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                         alarmManager.cancel(resultPendingIntent);
 
+                        mTaskRealmResults.sort("date", Sort.DESCENDING);
+                        mRealm.addChangeListener(mRealmListener);
+
                         reloadListView();
+
                     }
                 });
                 builder.setNegativeButton("CANCEL", null);
@@ -175,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             task.setCategory(mTaskRealmResults.get(i).getCategory());
             // 佐野が変更したところ終わり
 
-                       task.setContents(mTaskRealmResults.get(i).getContents());
+            task.setContents(mTaskRealmResults.get(i).getContents());
             task.setDate(mTaskRealmResults.get(i).getDate());
 
             taskArrayList.add(task);
